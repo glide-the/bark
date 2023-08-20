@@ -36,6 +36,7 @@ def semantic_to_waveform(
     semantic_tokens: np.ndarray,
     history_prompt: Optional[Union[Dict, str]] = None,
     temp: float = 0.7,
+    fine_temp: float = 0.5,
     silent: bool = False,
     output_full: bool = False,
 ):
@@ -44,6 +45,7 @@ def semantic_to_waveform(
     Args:
         semantic_tokens: semantic token output from `text_to_semantic`
         history_prompt: history choice for audio cloning
+        fine_temp: generation temperature (1.0 more diverse, 0.0 more conservative)
         temp: generation temperature (1.0 more diverse, 0.0 more conservative)
         silent: disable progress bar
         output_full: return full generation to be used as a history prompt
@@ -61,7 +63,7 @@ def semantic_to_waveform(
     fine_tokens = generate_fine(
         coarse_tokens,
         history_prompt=history_prompt,
-        temp=0.5,
+        temp=fine_temp,
     )
     audio_arr = codec_decode(fine_tokens)
     if output_full:
@@ -88,6 +90,7 @@ def generate_audio(
     history_prompt: Optional[Union[Dict, str]] = None,
     text_temp: float = 0.7,
     waveform_temp: float = 0.7,
+    fine_temp: float = 0.5,
     silent: bool = False,
     output_full: bool = False,
 ):
@@ -98,6 +101,7 @@ def generate_audio(
         history_prompt: history choice for audio cloning
         text_temp: generation temperature (1.0 more diverse, 0.0 more conservative)
         waveform_temp: generation temperature (1.0 more diverse, 0.0 more conservative)
+        fine_temp: generation temperature (1.0 more diverse, 0.0 more conservative)
         silent: disable progress bar
         output_full: return full generation to be used as a history prompt
 
@@ -114,6 +118,7 @@ def generate_audio(
         semantic_tokens,
         history_prompt=history_prompt,
         temp=waveform_temp,
+        fine_temp=fine_temp,
         silent=silent,
         output_full=output_full,
     )

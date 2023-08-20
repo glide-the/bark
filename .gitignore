@@ -1,2 +1,5 @@
 __pycache__/
 suno_bark.egg-info/
+.idea
+.ipynb_checkpoints
+未命名.ipynb
